@@ -1,0 +1,42 @@
+Get Git
+http://git-scm.com/download/mac
+Install the package
+Then start/restart your terminal
+Type: git in the terminal and make sure you see a list of commands
+
+Setup Git
+Create and navigate to folder ~/Documents/dev/git
+type: git init
+Add your name and email to the account by following the steps below:
+https://help.github.com/articles/set-up-git
+I think this is only used for private repositories, but it doesn't hurt to have support for that set up.
+
+Get the repo
+type: git clone git://github.com/erikosmond/happy_kingdom.git
+cd into ./happy_kingdom directory
+
+Update repo info
+git remote set-url origin git@github.com:erikosmond/happy_kingdom.git
+
+Generate SSH key
+For me, there was a little inconsistency with the instruction in this link, but it's still very straight forward.  My .ssh file existed, but it didn't have the document they wanted me to back up, so if you don't have that document either, don't worry about copying and backing it up.  In short, you can probably skip step 2, but take a look at it just incase.  
+https://help.github.com/articles/generating-ssh-keys
+paste the ssh key in an email to me and I'll add you to the repo
+
+Try Git
+At this point it makes sense to run through this quick tutorial
+http://try.github.com/levels/1/challenges/1
+
+Participate
+After you change or add something to the happy kingdom directory, add and commit the file(s) like in the tutorial above.
+If you put a new file in the directory, type: git add <your_file>
+If you just change a file (or files), type: git commit -m "a message saying what you changed"
+In both cases you need to do a commit before you can push to the remote repository 
+To push the changes or updates to the repository, type: git push -u origin master
+
+Additional useful tools if you want to do different things with git. (not necessary for current project)
+https://help.github.com/articles/create-a-repo
+
+Commands introduced in 'Try Git' tutorial
+git init
+git status
