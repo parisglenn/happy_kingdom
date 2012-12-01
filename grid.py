@@ -1,18 +1,34 @@
+#from termcolor import colored
 import random
 import copy
 
+class bcolors:
+    PURPLE = '\033[35m'
+    RED = '\033[91m'
+    GREEN = '\033[92m'
+    YELLOW = '\033[93m'
+    BLUE = '\033[94m'
+    PINK = '\033[95m'
+    TEAL = '\033[96m'
+    GRAY = '\033[97m'
+    BLACK = '\033[98m'
+    ENDC = '\033[0m'
+
 class Grid(object):
 
-    def __init__(self, width=14, height=14, verbose=True, distro={1:150,2:40,3:20}, above_bias=60, diag_bias=40, side_bias=40, repeat_decrease=8):
+    def __init__(self, width=14, height=14, verbose=False, distro={1:150,2:40,3:20}, above_bias=60, diag_bias=40, side_bias=40, repeat_decrease=8, color=True):
         '''A higher repeate decrease will mean that a 2s and 3s will be less likely to appear within a context of all 1s '''
         self.width = width
         self.height = height
+        self.verbose = verbose
+        self.color = color
         self.final_grid = []
         self.default_distro = distro
         self.above_bias = above_bias
         self.diag_bias = diag_bias
         self.side_bias = side_bias
         self.repeat_decrease = repeat_decrease
+        self.colors = {1:bcolors.GREEN, 2:bcolors.YELLOW, 3:bcolors.BLUE}
         self._create_frame()
         self.create_grid(verbose)
 
@@ -26,13 +42,24 @@ class Grid(object):
             for k in range(self.width):
                 k = self._choose_cell(i,k)
                 row.append(k)
-        if verbose:
+        if self.verbose:
             print self
+        if self.color:
+            self._print_color()
+
+    def _print_color(self):
+        for row in self.final_grid:
+            for i in row:
+                hue = self.colors[i]
+                formated = hue + u"\u2588" + bcolors.ENDC
+                print formated, #'\t',
+            print #'\n'   
 
     def __str__(self):
         string_grid = ''
         for row in self.final_grid:
             for i in row:
+                hue = self.colors[i]
                 string_grid += ''.join(str(i)) + '\t'
             string_grid += ('\n'+'\n')
         return string_grid
@@ -47,7 +74,7 @@ class Grid(object):
             if k > 0:
                 upper_left = previous_row[k-1]
                 side = current_row[k-1]
-            else: #change the logic here to None. was random.choice(self.dict_to_list(self.default_distro))
+            else:
                 upper_left = None
                 side = None
             if k < self.width-1:
@@ -102,8 +129,6 @@ class Grid(object):
 
     def _half_distro(self, key):
         val = self.default_distro[key]
-        #print type(val), "type val"
-        #print type(self.repeat_decrease), self.repeat_decrease
         new_val = val/self.repeat_decrease
         self.default_distro[key] = new_val
         
