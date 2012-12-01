@@ -29,9 +29,9 @@ http://try.github.com/levels/1/challenges/1
 
 Participate
 After you change or add something to the happy kingdom directory, add and commit the file(s) like in the tutorial above.
-If you put a new file in the directory, type: git add <your_file>
-If you just change a file (or files), type: git commit -m "a message saying what you changed"
-In both cases you need to do a commit before you can push to the remote repository 
+If you put a new file in the directory or modify files, type: git add <your_file> (or type: git add --all)
+Then, you commit the change.  type: git commit -m "a message saying what you changed"
+You need to do a commit before you can push to the remote repository 
 To push the changes or updates to the repository, type: git push -u origin master
 
 Additional useful tools if you want to do different things with git. (not necessary for current project)
