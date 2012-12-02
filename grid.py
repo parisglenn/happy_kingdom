@@ -15,14 +15,14 @@ class bcolors:
 
 class Grid(object):
 
-    def __init__(self, width=30, height=30, verbose=False, distro={1:160,2:40,3:20}, above_bias=40, diag_bias=40, side_bias=30, repeat_decrease=8, print_color=True, reduce_one=True):
+    def __init__(self, width=30, height=30, verbose=False, distro={1:160,2:40,3:20}, above_bias=40, diag_bias=42, side_bias=30, repeat_decrease=3, print_color=True, reduce_one=True):
         '''A higher repeate decrease will mean that a 2s and 3s will be less likely to appear within a context of all 1s '''
         self.width = width
         self.height = height
         self.verbose = verbose
         self.color = print_color
         self.final_grid = []
-        self.default_distro = distro
+        self.default_distro = copy.deepcopy(distro)
         self.above_bias = above_bias
         self.diag_bias = diag_bias
         self.side_bias = side_bias
@@ -41,11 +41,11 @@ class Grid(object):
             row = self.final_grid[i]
             for k in range(self.width):
                 k = self._choose_cell(i,k)
-                row.append(k)
+                row.append(k) 
         if self.verbose:
             print self
         if self.color:
-            self._print_color()
+            self._print_color()   
 
     def _print_color(self):
         for row in self.final_grid:
@@ -84,10 +84,8 @@ class Grid(object):
             possibles = self._create_distro(upper_left, above, upper_right, side)
             cell = random.choice(possibles)
             #reduce the chance or a river or mountain originating each time one has already initiated
-            if cell == 2 and upper_left != 2 and above != 2 and upper_right != 2 and self.default_distro[2] >= self.repeat_decrease:
-                self._reduce_distro(2)
-            if cell == 3 and upper_left != 3 and above != 3 and upper_right != 3 and self.default_distro[3] >= self.repeat_decrease:
-                self._reduce_distro(3)
+            if cell != 1 and upper_left != cell and above != cell and upper_right != cell and self.default_distro[cell] >= 0:
+                self._reduce_distro(cell)
         return cell    
 
     def _create_distro(self, upper_left, above, upper_right, side):
@@ -116,9 +114,8 @@ class Grid(object):
 
     def _reduce_distro(self, key):
         val = self.default_distro[key]
-        new_val = val/self.repeat_decrease
+        new_val = val - self.repeat_decrease
         self.default_distro[key] = new_val
-        print self.default_distro
         
     def distro_to_list(self, seq):
         possibles = []
