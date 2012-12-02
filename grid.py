@@ -66,7 +66,7 @@ class Grid(object):
 
     def _choose_cell(self, i, k):
         if i == 0:
-            cell = random.choice(self.dict_to_list(self.default_distro))
+            cell = random.choice(self.distro_to_list(self.default_distro))
         else: #find what was is around the cell being created
             previous_row = self.final_grid[i-1]
             current_row = self.final_grid[i]
@@ -99,7 +99,7 @@ class Grid(object):
             distro = self._adjust_distro('upper_right', upper_right, distro)            
         if side:
             distro = self._adjust_distro('side', side, distro)            
-        possibles = self.dict_to_list(distro)
+        possibles = self.distro_to_list(distro)
         return possibles
 
     def _adjust_distro(self, position, value, distro):
@@ -120,7 +120,7 @@ class Grid(object):
         self.default_distro[key] = new_val
         print self.default_distro
         
-    def dict_to_list(self, seq):
+    def distro_to_list(self, seq):
         possibles = []
         for key in seq:
             freq = seq.get(key, 0)
