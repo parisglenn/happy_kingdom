@@ -1,4 +1,3 @@
-#from termcolor import colored
 import random
 import copy
 
@@ -16,17 +15,18 @@ class bcolors:
 
 class Grid(object):
 
-    def __init__(self, width=14, height=14, verbose=False, distro={1:150,2:40,3:20}, above_bias=60, diag_bias=40, side_bias=40, repeat_decrease=8, color=True):
+    def __init__(self, width=30, height=30, verbose=False, distro={1:160,2:40,3:20}, above_bias=40, diag_bias=40, side_bias=30, repeat_decrease=8, print_color=True, reduce_one=True):
         '''A higher repeate decrease will mean that a 2s and 3s will be less likely to appear within a context of all 1s '''
         self.width = width
         self.height = height
         self.verbose = verbose
-        self.color = color
+        self.color = print_color
         self.final_grid = []
         self.default_distro = distro
         self.above_bias = above_bias
         self.diag_bias = diag_bias
         self.side_bias = side_bias
+        self.reduce_one = reduce_one
         self.repeat_decrease = repeat_decrease
         self.colors = {1:bcolors.GREEN, 2:bcolors.YELLOW, 3:bcolors.BLUE}
         self._create_frame()
@@ -52,16 +52,16 @@ class Grid(object):
             for i in row:
                 hue = self.colors[i]
                 formated = hue + u"\u2588" + bcolors.ENDC
-                print formated, #'\t',
-            print #'\n'   
+                print formated,
+            print   
 
     def __str__(self):
         string_grid = ''
         for row in self.final_grid:
             for i in row:
                 hue = self.colors[i]
-                string_grid += ''.join(str(i)) + '\t'
-            string_grid += ('\n'+'\n')
+                string_grid += hue + ''.join("# ") + bcolors.ENDC
+            string_grid += ('\n')
         return string_grid
 
     def _choose_cell(self, i, k):
@@ -83,54 +83,42 @@ class Grid(object):
                 upper_right = None
             possibles = self._create_distro(upper_left, above, upper_right, side)
             cell = random.choice(possibles)
+            #reduce the chance or a river or mountain originating each time one has already initiated
             if cell == 2 and upper_left != 2 and above != 2 and upper_right != 2 and self.default_distro[2] >= self.repeat_decrease:
-                self._half_distro(2)
+                self._reduce_distro(2)
             if cell == 3 and upper_left != 3 and above != 3 and upper_right != 3 and self.default_distro[3] >= self.repeat_decrease:
-                self._half_distro(3)
+                self._reduce_distro(3)
         return cell    
 
     def _create_distro(self, upper_left, above, upper_right, side):
-
         distro = copy.deepcopy(self.default_distro)
-
-        over_index = distro.get(above,0)
-        over_index += self.above_bias
-        distro[above] = over_index
-        one_index = distro[1]
-        one_index -= self.above_bias
-        distro[1] = one_index 
-
+        distro = self._adjust_distro('above', above, distro)
         if upper_left:
-            left_index = distro.get(upper_left,0)
-            left_index += self.diag_bias
-            distro[upper_left] = left_index
-            one_index = distro[1]
-            one_index -= self.diag_bias
-            distro[1] = one_index 
-
-        if upper_right:        
-            right_index = distro.get(upper_right,0)
-            right_index += self.diag_bias
-            distro[upper_right] = right_index
-            one_index = distro[1]
-            one_index -= self.diag_bias
-            distro[1] = one_index
-
+            distro = self._adjust_distro('upper_left', upper_left, distro)
+        if upper_right:
+            distro = self._adjust_distro('upper_right', upper_right, distro)            
         if side:
-            side_index = distro.get(side,0)
-            side_index += self.side_bias
-            distro[side] = side_index
-            one_index = distro[1]
-            one_index -= self.side_bias
-            distro[1] = one_index
-        
+            distro = self._adjust_distro('side', side, distro)            
         possibles = self.dict_to_list(distro)
         return possibles
 
-    def _half_distro(self, key):
+    def _adjust_distro(self, position, value, distro):
+        biases = {'upper_left':self.diag_bias, 'upper_right':self.diag_bias, 'above':self.above_bias, 'side':self.side_bias}
+        bias = biases[position]
+        position_index = distro.get(value,0)
+        position_index += bias
+        distro[value] = position_index
+        if self.reduce_one:
+            one_index = distro[1]
+            one_index -= bias
+            distro[1] = one_index
+        return distro
+
+    def _reduce_distro(self, key):
         val = self.default_distro[key]
         new_val = val/self.repeat_decrease
         self.default_distro[key] = new_val
+        print self.default_distro
         
     def dict_to_list(self, seq):
         possibles = []
