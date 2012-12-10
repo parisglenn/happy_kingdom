@@ -1,5 +1,4 @@
 import random
-import copy
 
 class bcolors:
     PURPLE = '\033[35m'
@@ -22,7 +21,7 @@ class Grid(object):
         self.verbose = verbose
         self.color = print_color
         self.final_grid = []
-        self.default_distro = copy.deepcopy(distro)
+        self.default_distro = dict(distro)
         self.above_bias = above_bias
         self.diag_bias = diag_bias
         self.side_bias = side_bias
@@ -89,7 +88,7 @@ class Grid(object):
         return cell    
 
     def _create_distro(self, upper_left, above, upper_right, side):
-        distro = copy.deepcopy(self.default_distro)
+        distro = dict(self.default_distro)
         distro = self._adjust_distro('above', above, distro)
         if upper_left:
             distro = self._adjust_distro('upper_left', upper_left, distro)
