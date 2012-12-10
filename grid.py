@@ -27,6 +27,7 @@ class Grid(object):
         self.side_bias = side_bias
         self.reduce_one = reduce_one
         self.repeat_decrease = repeat_decrease
+        self.biases = {'upper_left':self.diag_bias, 'upper_right':self.diag_bias, 'above':self.above_bias, 'side':self.side_bias}
         self.colors = {1:bcolors.GREEN, 2:bcolors.YELLOW, 3:bcolors.BLUE}
         self._create_frame()
         self.create_grid(verbose)
@@ -100,8 +101,7 @@ class Grid(object):
         return possibles
 
     def _adjust_distro(self, position, value, distro):
-        biases = {'upper_left':self.diag_bias, 'upper_right':self.diag_bias, 'above':self.above_bias, 'side':self.side_bias}
-        bias = biases[position]
+        bias = self.biases[position]
         position_index = distro.get(value,0)
         position_index += bias
         distro[value] = position_index
