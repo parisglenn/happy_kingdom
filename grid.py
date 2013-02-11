@@ -29,15 +29,11 @@ class Grid(object):
         self.repeat_decrease = repeat_decrease
         self.biases = {'upper_left':self.diag_bias, 'upper_right':self.diag_bias, 'above':self.above_bias, 'side':self.side_bias}
         self.colors = {1:bcolors.GREEN, 2:bcolors.YELLOW, 3:bcolors.BLUE}
-        self._create_frame()
         self.create_grid(verbose)
-
-    def _create_frame(self):
-        for i in range(self.height):
-            self.final_grid.append([])
        
     def create_grid(self, verbose):
         for i in range(self.height):
+            self.final_grid.append([])
             row = self.final_grid[i]
             for k in range(self.width):
                 k = self._choose_cell(i,k)
