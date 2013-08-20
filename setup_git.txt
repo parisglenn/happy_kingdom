@@ -59,3 +59,8 @@ git checkout master
 git merge clean_up
 git branch -d clean_up
 git push
+
+to create a new branch from master and then commit that new branch to the github repo:
+git checkout master (to ensure the branch you are copying will be master)
+git checkout -b new_branch_name
+git push origin 3.33.0
