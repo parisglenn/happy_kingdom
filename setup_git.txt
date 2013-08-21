@@ -13,6 +13,7 @@ I think this is only used for private repositories, but it doesn't hurt to have 
 
 Get the repo
 type: git clone git://github.com/erikosmond/happy_kingdom.git
+also try: git clone git@github.com:erikosmond/happy_kingdom
 cd into ./happy_kingdom directory
 
 Update repo info
