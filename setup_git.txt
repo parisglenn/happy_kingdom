@@ -9,7 +9,6 @@ Create and navigate to folder ~/Documents/dev/git
 type: git init
 Add your name and email to the account by following the steps below:
 https://help.github.com/articles/set-up-git
-I think this is only used for private repositories, but it doesn't hurt to have support for that set up.
 
 Get the repo
 type: git clone git://github.com/erikosmond/happy_kingdom.git
