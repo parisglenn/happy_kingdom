@@ -22,7 +22,6 @@ git remote set-url origin git@github.com:erikosmond/happy_kingdom.git
 Generate SSH key
 For me, there was a little inconsistency with the instruction in this link, but it's still very straight forward.  My .ssh file existed, but it didn't have the document they wanted me to back up, so if you don't have that document either, don't worry about copying and backing it up.  In short, you can probably skip step 2, but take a look at it just incase.  
 https://help.github.com/articles/generating-ssh-keys
-paste the ssh key in an email to me and I'll add you to the repo
 
 Try Git
 At this point it makes sense to run through this quick tutorial
