@@ -9,6 +9,8 @@ Create and navigate to folder ~/Documents/dev/git
 type: git init
 Add your name and email to the account by following the steps below:
 https://help.github.com/articles/set-up-git
+also create a ~/.gitignore file that says *.pyc and add it to your git config: 
+git config --global core.excludesfile ~/.gitignore_global
 
 Get the repo
 type: git clone git://github.com/erikosmond/happy_kingdom.git
@@ -19,7 +21,11 @@ Update repo info
 git remote set-url origin git@github.com:erikosmond/happy_kingdom.git
 
 Generate SSH key
-For me, there was a little inconsistency with the instruction in this link, but it's still very straight forward.  My .ssh file existed, but it didn't have the document they wanted me to back up, so if you don't have that document either, don't worry about copying and backing it up.  In short, you can probably skip step 2, but take a look at it just incase.  
+For me, there was a little inconsistency with the instruction in this link, 
+but it's still very straight forward.  My .ssh file existed,
+but it didn't have the document they wanted me to back up, 
+so if you don't have that document either, don't worry about copying and backing it up.  
+In short, you can probably skip step 2 in the article below, but take a look at it just incase.  
 https://help.github.com/articles/generating-ssh-keys
 
 Try Git
@@ -27,7 +33,8 @@ At this point it makes sense to run through this quick tutorial
 http://try.github.com/levels/1/challenges/1
 
 Participate
-After you change or add something to the happy kingdom directory, add and commit the file(s) like in the tutorial above.
+After you change or add something to the happy kingdom directory, add and commit the 
+file(s) like in the tutorial above.
 If you put a new file in the directory or modify files, type: git add <your_file> (or type: git add --all)
 Then, you commit the change.  type: git commit -m "a message saying what you changed"
 You need to do a commit before you can push to the remote repository 
