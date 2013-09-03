@@ -66,7 +66,11 @@ git merge clean_up
 git branch -d clean_up
 git push
 
-to create a new branch from master and then commit that new branch to the github repo:
+To create a new branch from master and then commit that new branch to the github repo:
 git checkout master (to ensure the branch you are copying will be master)
 git checkout -b new_branch_name
 git push origin new_branch_name
+
+To clone a specific branch of a repo (start in an empty dir and git init)
+git remote add -t $BRANCH -f origin $REMOTE_REPO
+git checkout $BRANCH
