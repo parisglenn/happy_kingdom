@@ -74,3 +74,8 @@ git push origin new_branch_name
 To clone a specific branch of a repo (start in an empty dir and git init)
 git remote add -t $BRANCH -f origin $REMOTE_REPO
 git checkout $BRANCH
+
+If you modify master - or another branch - unintentionally, you can revert to github's version (origin) by:
+first create a branch that houses your changes
+then git checkout master (or whichever branch was compromised)
+git reset --hard origin/master
